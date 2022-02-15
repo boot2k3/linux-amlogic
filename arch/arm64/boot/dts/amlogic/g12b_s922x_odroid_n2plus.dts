@@ -111,7 +111,7 @@
 
 	demux {
 		compatible = "amlogic, dvb-demux";
-		dev_name = "dvb-demux";
+		dev_name = "avl6862";
 		status = "disabled";
 		dtv_demod0_i2c_adap_id = <2>;
 		ts0 = "serial";
