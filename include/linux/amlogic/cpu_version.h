@@ -235,7 +235,9 @@ static inline bool is_meson_rev_a(void)
 
 static inline bool is_meson_rev_b(void)
 {
-	return (get_meson_cpu_version(MESON_CPU_VERSION_LVL_MINOR) == 0xB);
+	return ((get_cpu_type() == MESON_CPU_MAJOR_ID_G12B &&
+		get_meson_cpu_version(MESON_CPU_VERSION_LVL_MINOR) == 0xC) ||
+		get_meson_cpu_version(MESON_CPU_VERSION_LVL_MINOR) == 0xB);
 }
 
 static inline bool is_meson_rev_c(void)
