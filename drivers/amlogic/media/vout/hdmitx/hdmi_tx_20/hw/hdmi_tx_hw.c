@@ -2553,8 +2553,10 @@ static void set_aud_chnls(struct hdmitx_dev *hdev,
 			break;
 		case SS_24BITS:
 		case SS_MAX:
-		default:
 			hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8, 0xb, 0, 4);
+			break;
+		default:
+			hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8, 0x2, 0, 4);
 	}
 	hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8,  /* CSB 39:36 */
 		aud_csb_ori_sampfreq[audio_param->sample_rate], 4, 4);
