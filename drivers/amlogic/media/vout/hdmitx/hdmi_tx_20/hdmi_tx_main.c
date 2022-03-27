@@ -2577,6 +2577,9 @@ static ssize_t show_config(struct device *dev,
 	case CT_WMA:
 		conf = "WMA";
 		break;
+	case CT_DTS_HD_MA:
+		conf = "DTS_HD_MA";
+		break;
 	default:
 		conf = "MAX";
 	}
@@ -3132,6 +3135,7 @@ static ssize_t show_aud_cap(struct device *dev,
 		case CT_DTS_HD:
 		case CT_MAT:
 		case CT_DST:
+		case CT_DTS_HD_MA:
 			pos += snprintf(buf + pos, PAGE_SIZE, "DepVaule 0x%x\n",
 				prxcap->RxAudioCap[i].cc3);
 			break;
@@ -5645,6 +5649,7 @@ static unsigned char *aud_type_string[] = {
 	"CT_MAT",
 	"CT_DST",
 	"CT_WMA",
+	"CT_DTS_HD_MA",
 	"CT_MAX",
 };
 
