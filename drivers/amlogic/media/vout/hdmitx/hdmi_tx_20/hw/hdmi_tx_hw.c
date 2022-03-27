@@ -2523,6 +2523,8 @@ static void set_aud_chnls(struct hdmitx_dev *hdev,
 	if ((audio_param->type == CT_PCM) &&
 		(audio_param->channel_num == (2 - 1))) {
 		hdmitx_wr_reg(HDMITX_DWC_FC_AUDSV, 0);
+		hdmitx_wr_reg(HDMITX_DWC_FC_AUDSCHNLS7, 0x02);
+		hdmitx_wr_reg(HDMITX_DWC_FC_AUDSCHNLS8, 0xd2);
 	} else {
 		hdmitx_wr_reg(HDMITX_DWC_FC_AUDSV, 0);
 	}
@@ -2545,16 +2547,16 @@ static void set_aud_chnls(struct hdmitx_dev *hdev,
 	hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS7, 0x0, 6, 2); /*CSB 31:30*/
 	hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS7, 0x0, 4, 2); /*CSB 29:28*/
 	switch (audio_param->sample_size) {
-		case SS_16BITS:
-			hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8, 0x2, 0, 4); /*CSB 35:32*/
+		case SS_24BITS:
+			hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8, 0xb, 0, 4);
 			break;
 		case SS_20BITS:
 			hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8, 0xa, 0, 4);
 			break;
-		case SS_24BITS:
+		case SS_16BITS:
 		case SS_MAX:
 		default:
-			hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8, 0xb, 0, 4);
+			hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8, 0x2, 0, 4); /*CSB 35:32*/
 	}
 	hdmitx_set_reg_bits(HDMITX_DWC_FC_AUDSCHNLS8,  /* CSB 39:36 */
 		aud_csb_ori_sampfreq[audio_param->sample_rate], 4, 4);
