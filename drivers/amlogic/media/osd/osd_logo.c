@@ -191,16 +191,22 @@ int set_osd_logo_freescaler(void)
 	s32 dst_y_start = 0, dst_y_end = 0;
 	s32 target_x_end = 0, target_y_end = 0;
 
+	pr_info("set_osd_logo_freescaler 1 start")
 	if (logo_info.loaded == 0 || logo_info.index < 0)
 		return 0;
+	pr_info("set_osd_logo_freescaler 1 end")
 
+	pr_info("set_osd_logo_freescaler 2 start")
 	if (osd_get_logo_index() != logo_info.index) {
 		pr_info("logo changed, return!\n");
 		return -1;
 	}
+	pr_info("set_osd_logo_freescaler 2 end")
 
+	pr_info("set_osd_logo_freescaler 3 start")
 	if ((osd_hw.osd_meson_dev.osd_ver == OSD_SIMPLE) && (index >= 1))
 		return -1;
+	pr_info("set_osd_logo_freescaler 3 end")
 
 	/* for dual logo,
 	 * if viu1 interface(such as hdmi) is unplugged when booting.
@@ -210,6 +216,7 @@ int set_osd_logo_freescaler(void)
 		if (index >= LOGO_DEV_VIU2_OSD0)
 			index = LOGO_DEV_OSD0;
 
+	pr_info("set_osd_logo_freescaler 4 start")
 	if (osd_get_position_from_reg(
 		index,
 		&src_x_start, &src_x_end,
@@ -217,6 +224,7 @@ int set_osd_logo_freescaler(void)
 		&dst_x_start, &dst_x_end,
 		&dst_y_start, &dst_y_end))
 		return -1;
+	pr_info("set_osd_logo_freescaler 4 end")
 
 	vinfo = get_current_vinfo();
 	if (vinfo) {
@@ -226,6 +234,7 @@ int set_osd_logo_freescaler(void)
 		target_x_end = 1919;
 		target_y_end = 1079;
 	}
+	pr_info("set_osd_logo_freescaler 5 start")
 	if ((src_x_start == 0)
 		&& (src_x_end == (logo_info.fb_width - 1))
 		&& (src_y_start == 0)
@@ -235,6 +244,7 @@ int set_osd_logo_freescaler(void)
 		&& (dst_y_start == 0)
 		&& (dst_y_end == target_y_end))
 		return 0;
+	pr_info("set_osd_logo_freescaler 5 end")
 
 	if (vinfo)
 		pr_info("outputmode changed to %s, reset osd%d, (%d, %d, %d, %d) -> (%d, %d, %d, %d)\n",
