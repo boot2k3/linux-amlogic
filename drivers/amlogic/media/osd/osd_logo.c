@@ -226,6 +226,11 @@ int set_osd_logo_freescaler(void)
 		target_x_end = 1919;
 		target_y_end = 1079;
 	}
+
+	if (src_y_start != 0)
+		return -1;
+	pr_info("set_osd_logo_freescaler 5 start src_x_start: %d, src_y_end: %d, logo_info.fb_width: %d, src_y_start: %d, src_y_end: %d, logo_info.fb_height: %d, dst_x_start: %d, dst_x_end: %d, target_x_end: %d, dst_y_start: %d, dst_y_end: %d, target_y_end:%d\n",
+		src_x_start, src_y_end, logo_info.fb_width - 1, src_y_start, src_y_end, logo_info.fb_height -1, dst_x_start, dst_x_end, target_x_end, dst_y_start, dst_y_end, target_y_end);
 	if ((src_x_start == 0)
 		&& (src_x_end == (logo_info.fb_width - 1))
 		&& (src_y_start == 0)
@@ -235,6 +240,7 @@ int set_osd_logo_freescaler(void)
 		&& (dst_y_start == 0)
 		&& (dst_y_end == target_y_end))
 		return 0;
+	pr_info("set_osd_logo_freescaler 5 end");
 
 	if (vinfo)
 		pr_info("outputmode changed to %s, reset osd%d, (%d, %d, %d, %d) -> (%d, %d, %d, %d)\n",
