@@ -42,7 +42,9 @@
 #include <linux/amlogic/media/vout/vinfo.h>
 #include <linux/amlogic/media/vout/vout_notify.h>
 #include <linux/meson_ion.h>
-
+#ifdef CONFIG_AMLOGIC_VPU
+#include <linux/amlogic/media/vpu/vpu.h>
+#endif
 /* Local Headers */
 #include "osd.h"
 #include "osd_fb.h"
@@ -949,10 +951,14 @@ static int osd_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)
 				   sizeof(*sync_request));
 		kfree(sync_request);
 		break;
+	// Only wait for vsync when not HW decoding.
 	case FBIO_WAITFORVSYNC:
 		output_index = get_output_device_id(info->node);
 		if (output_index == VIU1)
-			vsync_timestamp = (s32)osd_wait_vsync_event();
+			if (vpu_vmod_mem_pd_get(VPU_VIU_VD1))
+				vsync_timestamp = (s32)osd_wait_vsync_event();
+			else
+				vsync_timestamp = 0;
 		else if (output_index == VIU2)
 			vsync_timestamp = (s32)osd_wait_vsync_event_viu2();
 		else if (output_index == VIU3)
@@ -965,7 +971,10 @@ static int osd_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)
 	case FBIO_WAITFORVSYNC_64:
 		output_index = get_output_device_id(info->node);
 		if (output_index == VIU1)
-			vsync_timestamp_64 = osd_wait_vsync_event();
+			if (vpu_vmod_mem_pd_get(VPU_VIU_VD1))
+				vsync_timestamp_64 = osd_wait_vsync_event();
+			else
+				vsync_timestamp_64 = 0;
 		else if (output_index == VIU2)
 			vsync_timestamp_64 = osd_wait_vsync_event_viu2();
 		else if (output_index == VIU3)
